@@ -1,8 +1,4 @@
 --  lists all students that have a score under 80
-CREATE TABLE IF NOT EXISTS students(name VARCHAR(255) NOT NULL, score INT DEFAULT 0, last_meeting DATE NULL);
-INSERT INTO students (name, score) VALUES ("Bob", 80);
-INSERT INTO students (name, score) VALUES ("Sylvia", 120);
-INSERT INTO students (name, score) VALUES ("Jean", 60);
-INSERT INTO students (name, score) VALUES ("Steeve", 50);
-INSERT INTO students (name, score) VALUES ("Camilla", 80);
-INSERT INTO students (name, score) VALUES ("Alexa", 130);
+CREATE VIEW need_meeting AS
+SELECT name FROM students WHERE score < 80
+AND (students.last_meeting IS NULL OR students.last_meeting < DATE_ADD(NOW(), INTERVAL -1 MONTH));
