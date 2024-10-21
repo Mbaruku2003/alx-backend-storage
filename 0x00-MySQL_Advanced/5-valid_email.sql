@@ -1,6 +1,6 @@
 -- resets the attribute valid_email only when the email has been changed.
 DELIMITER $$ ;
-CREATE TRIGGER the_trigger BEFORE UPDATE ONi users
+CREATE TRIGGER the_trigger BEFORE UPDATE ON users
 FOR EACH ROW
 	BEGIN
 		IF NEW.email != OLD.email THEN
