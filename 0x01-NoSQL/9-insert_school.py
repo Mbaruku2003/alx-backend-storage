@@ -5,4 +5,4 @@ def insert_school(mongo_collection, **kwargs):
     """Returns the new _id."""
 
     database = mongo_collection.insertMany(kwargs)
-    return database.insert_id
+    return database.inserted_id
