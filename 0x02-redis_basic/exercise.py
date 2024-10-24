@@ -20,6 +20,19 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+def call_history(method: Callable) -> Callable:
+    """Decorator to store the history of inputs of a function."""
+
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        inputs_key = f"{method.__qualname__}:inputs"
+        outside_key = f"{method.__qualname__}:inputs"
+        self.redis.rpush(inputs_key, str(args))
+        output = method(self, *args, **kwargs)
+        self._redis.rpush(outputs_key, str(output))
+        return output
+    return wrapper
+
 
 class Cache:
     def __init__(self):
@@ -51,7 +64,7 @@ class Cache:
 
         return self.get(key, fn=lambda d: d.decode('utf-8'))
 
-    def get_int(self, key:str) -> Optional[int]:
+    def get_int(self, key: str) -> Optional[int]:
         """retreive the data as an integer."""
 
         return self.get(key, fn=int)
