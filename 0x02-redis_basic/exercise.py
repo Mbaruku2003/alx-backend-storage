@@ -19,3 +19,23 @@ class Cache:
         random_key = str(uuid.uuid4())
         self._redis.set(random_key, data)
         return random_key
+
+    def get(self, key:str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float, None]:
+        """Retreive data from redis and convert it using fn."""
+
+        data = self._redis.get(key)
+        if data is None:
+            return None
+        if fn:
+            return fn(data)
+        return data
+
+    def get_str(self, key:str) -> Optional[str]:
+        """retreive the data as UTF-8 decoded string."""
+
+        return slef.get(key, fn=lambda d: d.decode('utf-8'))
+
+    def get_int(self, key:str) ->Optional[int]:
+        """retreive the data as an integer."""
+
+        return self.get(key, fn=int)
