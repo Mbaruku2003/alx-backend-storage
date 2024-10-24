@@ -2,7 +2,7 @@
 """A new class in the Cache method."""
 import redis
 import uuid
-from typing import Union
+from typing import Union, Callable, Optional
 from functools import wraps
 import requests
 
@@ -33,7 +33,7 @@ class Cache:
     def get_str(self, key:str) -> Optional[str]:
         """retreive the data as UTF-8 decoded string."""
 
-        return slef.get(key, fn=lambda d: d.decode('utf-8'))
+        return self.get(key, fn=lambda d: d.decode('utf-8'))
 
     def get_int(self, key:str) ->Optional[int]:
         """retreive the data as an integer."""
