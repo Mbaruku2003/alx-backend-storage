@@ -75,7 +75,7 @@ class Cache:
         key = method.__qualname__
         input_key = f"{key}:inputs"
         output_key = f"{key}:outputs"
-        redis_instance = method.__self__.__redis
+        redis_instance = method.__self__._redis
         inputs = redis_instance.lrange(input_key, 0, -1)
         outputs = redis_instance.lrange(output_key, 0, -1)
         count = len(inputs)
