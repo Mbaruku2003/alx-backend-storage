@@ -4,7 +4,6 @@ import redis
 import uuid
 from typing import Union, Callable, Optional
 from functools import wraps
-import requests
 
 
 def count_calls(method: Callable) -> Callable:
@@ -25,9 +24,9 @@ def call_history(method: Callable) -> Callable:
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        inputs_key = f"{method.__qualname__}:inputs"
-        outputs_key = f"{method.__qualname__}:outputs"
-        self.redis.rpush(inputs_key, str(args))
+        inputs_key = method.__qualname__ + ":inputs"
+        outputs_key = method.__qualname__ + ":outputs"
+        self._redis.rpush(inputs_key, str(args))
         output = method(self, *args, **kwargs)
         self._redis.rpush(outputs_key, str(output))
         return output
