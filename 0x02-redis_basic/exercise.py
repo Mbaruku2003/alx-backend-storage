@@ -6,6 +6,7 @@ from typing import Union, Callable, Optional
 from functools import wraps
 import requests
 
+
 def count_calls(method: Callable) -> Callable:
     """Decorator to count how many times a method is caled."""
 
@@ -35,7 +36,7 @@ class Cache:
         self._redis.set(random_key, data)
         return random_key
 
-    def get(self, key:str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float, None]:
+    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float, None]:
         """Retreive data from redis and convert it using fn."""
 
         data = self._redis.get(key)
@@ -45,12 +46,12 @@ class Cache:
             return fn(data)
         return data
 
-    def get_str(self, key:str) -> Optional[str]:
+    def get_str(self, key: str) -> Optional[str]:
         """retreive the data as UTF-8 decoded string."""
 
         return self.get(key, fn=lambda d: d.decode('utf-8'))
 
-    def get_int(self, key:str) ->Optional[int]:
+    def get_int(self, key:str) -> Optional[int]:
         """retreive the data as an integer."""
 
         return self.get(key, fn=int)
