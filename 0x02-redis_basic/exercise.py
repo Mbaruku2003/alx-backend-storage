@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """A new class in the Cache method."""
 import redis
+import uuid
 from typing import Union
 from functools import wraps
 import requests
